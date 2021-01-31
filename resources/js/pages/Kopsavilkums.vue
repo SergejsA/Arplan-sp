@@ -54,6 +54,7 @@
             </div>
             <div class="row mt-3">
                 <div class="col">
+<!-- test -->
                     <div id="canvasContainer" style="float:left;">
                     <canvas id="myChart"></canvas>
                     </div>
