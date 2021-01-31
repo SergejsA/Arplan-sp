@@ -2569,6 +2569,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'kopsavilkums',
   props: ['app'],
@@ -64771,8 +64773,10 @@ var render = function() {
                   ],
                   2
                 )
-              ]),
-              _vm._v(" "),
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col" }, [
                 _c(
                   "div",

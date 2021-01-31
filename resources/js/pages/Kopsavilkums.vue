@@ -51,6 +51,8 @@
                         </tr>
                     </table>
                 </div>
+            </div>
+            <div class="row mt-3">
                 <div class="col">
                     <div id="canvasContainer" style="float:left;">
                     <canvas id="myChart"></canvas>
