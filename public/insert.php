@@ -2817,7 +2817,7 @@ foreach($a as $row){
     $sql = "INSERT INTO data (id, project_id, darbs, daritaja_id, datums, ilgums, created_at, updated_at) VALUES ($id, $project_id, $darbs, $daritaja_id, $datums, $ilgums, null, null)";
     // echo var_dump($sql)."\n";
     $query = mysqli_query($db_conx, $sql);
-    echo $query;
+    // echo $query;
 }
 
 
