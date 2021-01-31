@@ -47,7 +47,10 @@ $string = "(1, 'PSKUS', 'closed', 1, 'Statika;Aprēķini;Modelis;KMD;Būvprojekt
 
 
 $a = explode("\n", $string);
-echo sizeof($a);
+foreach($a as $row){
+    $dati = explode(",", substr($row, 1, strlen($row)));
+    echo $dati[0]."  -   ";
+}
 
 
 ?>
