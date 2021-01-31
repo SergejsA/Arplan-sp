@@ -1,0 +1,70 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.bg-sitera{
+    background-color: orange;
+}
+
+th.brivdienacol6{
+    border-top:4px solid #fd7d77;
+    border-left: 4px solid #fd7d77;
+}
+th.brivdienacol7{
+    border-top:4px solid #fd7d77;
+    border-right: 4px solid #fd7d77;
+}
+td.brivdienacol6{
+    border-left: 4px solid #fd7d77;
+}
+td.brivdienacol7{
+    border-right: 4px solid #fd7d77;
+}
+
+td.beigas.brivdienacol6{
+    border-bottom:4px solid #fd7d77;
+    border-left: 4px solid #fd7d77;
+}
+td.beigas.brivdienacol7{
+    border-bottom:4px solid #fd7d77;
+    border-right: 4px solid #fd7d77;
+}
+
+th.sodienacol{
+    border-top:4px solid #73eb40;
+    border-left: 4px solid #73eb40;
+    border-right: 4px solid #73eb40;
+}
+td.sodienacol{
+    border-top:4px solid #73eb40;
+    border-left: 4px solid #73eb40;
+    border-right: 4px solid #73eb40;
+}
+td.beigas.sodienacol{
+    border-bottom:4px solid #73eb40;
+}
+
+#spanbacktoMenesis{
+    float:left;
+}
+#spanbacktoMenesis:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.zalasDienas{
+    background: #6dfa05;
+}
+.sarkanasDienas{
+    background: #ee5050;
+}
+
+#myChart{
+    width:100%;
+    height:100%;
+}
