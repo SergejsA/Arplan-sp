@@ -49,7 +49,7 @@ $string = "(1, 'PSKUS', 'closed', 1, 'Statika;Aprēķini;Modelis;KMD;Būvprojekt
 $a = explode("\n", $string);
 foreach($a as $row){
     echo var_dump($row);
-    $dati = explode(",", substr($row, 1, strlen($row)-2));
+    $dati = explode(",", substr($row, 1, strlen($row)-3));
     $id = $dati[0];
     $nosaukums = trim($dati[1]);
     $stat = trim($dati[2]);
