@@ -2806,18 +2806,20 @@ foreach($a as $row){
     $dati = explode(",", substr($row, 1, strlen($row)));
     $id = $dati[0];
     $projekts = trim($dati[1]);
-    $sql = "SELECT id FROM projects WHERE nosaukums=$projekts";
-    $query = mysqli_query($db_conx, $sql);
-    $rez = mysqli_fetch_row($query);
-    $project_id = $rez[0];
-    $darbs = trim($dati[2]);
-    $daritaja_id = trim($dati[3]);
-    $datums = trim($dati[4]);
-    $ilgums = trim(explode(")", $dati[5])[0]);
-    $sql = "INSERT INTO data (id, project_id, darbs, daritaja_id, datums, ilgums, created_at, updated_at) VALUES ($id, $project_id, $darbs, $daritaja_id, $datums, $ilgums, null, null)";
-    // echo var_dump($sql)."\n";
-    $query = mysqli_query($db_conx, $sql);
-    // echo $query;
+    if($projekts == '-'){
+        $sql = "SELECT id FROM projects WHERE nosaukums=$projekts";
+        $query = mysqli_query($db_conx, $sql);
+        $rez = mysqli_fetch_row($query);
+        $project_id = $rez[0];
+        $darbs = trim($dati[2]);
+        $daritaja_id = trim($dati[3]);
+        $datums = trim($dati[4]);
+        $ilgums = trim(explode(")", $dati[5])[0]);
+        $sql = "INSERT INTO data (id, project_id, darbs, daritaja_id, datums, ilgums, created_at, updated_at) VALUES ($id, $project_id, $darbs, $daritaja_id, $datums, $ilgums, null, null)";
+        // echo var_dump($sql)."\n";
+        $query = mysqli_query($db_conx, $sql);
+        // echo $query;
+    }
 }
 
 
