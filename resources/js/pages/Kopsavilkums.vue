@@ -52,10 +52,9 @@
                     </table>
                 </div>
             </div>
-            <div class="row mt-3">
+            <div class="row mt-5">
                 <div class="col">
-<!-- test -->
-                    <div id="canvasContainer" style="float:left;">
+                    <div id="canvasContainer">
                     <canvas id="myChart"></canvas>
                     </div>
                 </div>

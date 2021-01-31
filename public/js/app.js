@@ -2571,7 +2571,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'kopsavilkums',
   props: ['app'],
@@ -64777,16 +64776,11 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "row mt-3" }, [
+            _c("div", { staticClass: "row mt-5" }, [
               _c("div", { staticClass: "col" }, [
-                _c(
-                  "div",
-                  {
-                    staticStyle: { float: "left" },
-                    attrs: { id: "canvasContainer" }
-                  },
-                  [_c("canvas", { attrs: { id: "myChart" } })]
-                )
+                _c("div", { attrs: { id: "canvasContainer" } }, [
+                  _c("canvas", { attrs: { id: "myChart" } })
+                ])
               ])
             ])
           ])
