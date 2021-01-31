@@ -2806,11 +2806,11 @@ foreach($a as $row){
     $dati = explode(",", substr($row, 1, strlen($row)));
     $id = $dati[0];
     $projekts = trim($dati[1]);
-    if($projekts == '-'){
-        $sql = "SELECT id FROM projects WHERE nosaukums=$projekts";
-        $query = mysqli_query($db_conx, $sql);
-        $rez = mysqli_fetch_row($query);
-        $project_id = $rez[0];
+    $sql = "SELECT id FROM projects WHERE nosaukums=$projekts";
+    $query = mysqli_query($db_conx, $sql);
+    $rez = mysqli_fetch_row($query);
+    $project_id = $rez[0];
+    if($project_id == 0){
         $darbs = trim($dati[2]);
         $daritaja_id = trim($dati[3]);
         $datums = trim($dati[4]);
