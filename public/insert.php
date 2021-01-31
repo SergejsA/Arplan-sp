@@ -49,7 +49,13 @@ $string = "(1, 'PSKUS', 'closed', 1, 'Statika;Aprēķini;Modelis;KMD;Būvprojekt
 $a = explode("\n", $string);
 foreach($a as $row){
     $dati = explode(",", substr($row, 1, strlen($row)));
-    echo $dati[0]."  -   ";
+    $id = $dati[0];
+    $nosaukums = trim($dati[1]);
+    $stat = trim($dati[2]);
+    $pievinotaja_id = trim($dati[3]);
+    $darbi = trim($dati[4]);
+    $sql = "INSERT INTO projects (id, nosaukums, stat, pievienotaja_id, darbi, created_at, updated_at) VALUES ($id, '".$nosaukums."', '".$stat."', $pievinotaja_id, '".$darbi."', null, null)";
+    $query = mysqli_query($db_conx, $sql);
 }
 
 
