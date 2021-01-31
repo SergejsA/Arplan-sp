@@ -56,6 +56,7 @@ foreach($a as $row){
     $darbi = trim($dati[4]);
     $sql = "INSERT INTO projects (id, nosaukums, stat, pievienotaja_id, darbi, created_at, updated_at) VALUES ($id, '".$nosaukums."', '".$stat."', $pievinotaja_id, '".$darbi."', null, null)";
     $query = mysqli_query($db_conx, $sql);
+    echo $query;
 }
 
 
