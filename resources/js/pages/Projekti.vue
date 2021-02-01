@@ -219,7 +219,7 @@ export default {
             parastiJobs: [],
             newDefault: '',
             newParasti: '',
-            filter: 'Pirmais',
+            filter: '',
             render: true
         }
     },

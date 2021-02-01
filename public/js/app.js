@@ -3420,7 +3420,7 @@ __webpack_require__.r(__webpack_exports__);
       parastiJobs: [],
       newDefault: '',
       newParasti: '',
-      filter: 'Pirmais',
+      filter: '',
       render: true
     };
   },
