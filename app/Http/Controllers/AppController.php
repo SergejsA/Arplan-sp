@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ResetPasswordMailable;
+use App\Models\AdresesIp;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,9 +16,20 @@ use Psr\Http\Message\ResponseInterface;
 class AppController extends Controller
 {
     public function init(Request $request){
-        $user = Auth::user();
+
         $ip = $request->ip();
-        return response()->json(['user' => $user, 'ip' => $ip], 200);
+        $ips = AdresesIp::all();
+        $atlauts = false;
+        foreach($ips as $i){
+            if($i->adrese == $ip){
+                $atlauts = true;
+                break;
+            }
+        }
+
+
+        $user = Auth::user();
+        return response()->json(['user' => $user, 'ip' => ($atlauts ? 'ir' : 'nav')], 200);
     }
 
     public function login(Request $request){

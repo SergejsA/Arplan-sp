@@ -37,8 +37,10 @@ export default {
                 a: 'test'
             };
             this.req.post('auth/init', data).then(response => {
-                console.log(response.data.ip);
                 this.user = response.data.user;
+                // if(response.data.ip == 'nav'){
+                //     window.location.href = "https://google.com";
+                // }
                 if(this.user == null){
                     this.$router.push('/login');
                 }
