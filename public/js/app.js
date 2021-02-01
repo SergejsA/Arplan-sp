@@ -1885,9 +1885,11 @@ __webpack_require__.r(__webpack_exports__);
         a: 'test'
       };
       this.req.post('auth/init', data).then(function (response) {
-        _this.user = response.data.user; // if(response.data.ip == 'nav'){
-        //     window.location.href = "https://google.com";
-        // }
+        _this.user = response.data.user;
+
+        if (response.data.ip == 'nav') {
+          window.location.href = "https://google.com";
+        }
 
         if (_this.user == null) {
           _this.$router.push('/login');

@@ -38,9 +38,9 @@ export default {
             };
             this.req.post('auth/init', data).then(response => {
                 this.user = response.data.user;
-                // if(response.data.ip == 'nav'){
-                //     window.location.href = "https://google.com";
-                // }
+                if(response.data.ip == 'nav'){
+                    window.location.href = "https://google.com";
+                }
                 if(this.user == null){
                     this.$router.push('/login');
                 }
