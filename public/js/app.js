@@ -64398,7 +64398,9 @@ var render = function() {
                       class: {
                         brivdienacol6: j == 5,
                         brivdienacol7: j == 6,
-                        sodienacol: j == _vm.currentDay - 1
+                        sodienacol:
+                          j == _vm.currentDay - 1 &&
+                          _vm.nedelas_nr == _vm.todayWeek
                       },
                       staticStyle: { "text-align": "center" }
                     },
