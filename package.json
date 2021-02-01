@@ -27,6 +27,7 @@
     "dependencies": {
         "vue-router": "^3.4.9",
         "vue-simple-spinner": "^1.2.10",
-        "vue-spinner": "^1.0.4"
+        "vue-spinner": "^1.0.4",
+        "xlsx": "^0.16.9"
     }
 }

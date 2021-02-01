@@ -33,8 +33,11 @@ export default {
     methods: {
         init(){
             this.loading = true;
-
-            this.req.get('auth/init').then(response => {
+            const data = {
+                a: 'test'
+            };
+            this.req.post('auth/init', data).then(response => {
+                console.log(response.data.ip);
                 this.user = response.data.user;
                 if(this.user == null){
                     this.$router.push('/login');

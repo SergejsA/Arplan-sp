@@ -14,9 +14,10 @@ use Psr\Http\Message\ResponseInterface;
 
 class AppController extends Controller
 {
-    public function init(){
+    public function init(Request $request){
         $user = Auth::user();
-        return response()->json(['user' => $user], 200);
+        $ip = $request->ip();
+        return response()->json(['user' => $user, 'ip' => $ip], 200);
     }
 
     public function login(Request $request){

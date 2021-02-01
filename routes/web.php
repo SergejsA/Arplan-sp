@@ -6,6 +6,7 @@ use App\Http\Controllers\LietotajiController;
 use App\Http\Controllers\ProjektiController;
 use App\Mail\ResetPasswordMailable;
 use App\Models\User;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('auth')->group(function(){
-    Route::get('init', [AppController::class, 'init']);
+    Route::post('init', [AppController::class, 'init']);
 
     Route::post('login', [AppController::class, 'login']);
     Route::post('register', [AppController::class, 'register']);
@@ -63,6 +64,8 @@ Route::prefix('data')->group(function(){
     Route::post('edit', [DataController::class, 'edit']);
     Route::post('getAll', [DataController::class, 'getAll']);
     Route::post('getChartInfo', [DataController::class, 'getChartInfo']);
+    Route::post('newAdrese', [DataController::class, 'newAdrese']);
+    Route::post('deleteAdrese', [DataController::class, 'deleteAdrese']);
 });
 
 // Auth::routes();

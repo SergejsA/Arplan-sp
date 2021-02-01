@@ -1881,7 +1881,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.loading = true;
-      this.req.get('auth/init').then(function (response) {
+      var data = {
+        a: 'test'
+      };
+      this.req.post('auth/init', data).then(function (response) {
+        console.log(response.data.ip);
         _this.user = response.data.user;
 
         if (_this.user == null) {
@@ -2571,6 +2575,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'kopsavilkums',
   props: ['app'],
@@ -2592,6 +2597,19 @@ __webpack_require__.r(__webpack_exports__);
     this.init();
   },
   methods: {
+    exportData: function exportData() {
+      var wb = XLSX.utils.book_new();
+      wb.SheetNames.push("Dati");
+      var ws_data = [['Nr', 'Darbs', 'Stundas']];
+
+      for (var i = 0; i < this.labels.length; i++) {
+        ws_data.push([i + 1, this.labels[i], this.values[i]]);
+      }
+
+      var ws = XLSX.utils.aoa_to_sheet(ws_data);
+      wb.Sheets["Dati"] = ws;
+      XLSX.writeFile(wb, 'dati.xlsx');
+    },
     init: function init() {
       var _this = this;
 
@@ -2883,6 +2901,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'home',
   props: ['app'],
@@ -2898,7 +2942,9 @@ __webpack_require__.r(__webpack_exports__);
       errors: [],
       deleteId: 0,
       editId: 0,
-      editIndex: 0
+      editIndex: 0,
+      ipAdreses: [],
+      newAdrese: ''
     };
   },
   mounted: function mounted() {
@@ -2915,6 +2961,7 @@ __webpack_require__.r(__webpack_exports__);
       this.loading = true;
       this.app.req.get('lietotaji/getAll').then(function (response) {
         _this.lietotaji = response.data.lietotaji;
+        _this.ipAdreses = response.data.adreses;
         _this.loading = false;
       });
     },
@@ -3023,6 +3070,29 @@ __webpack_require__.r(__webpack_exports__);
           _this4.errors.push(error.response.data.error);
         });
       }
+    },
+    newAdreseSubmit: function newAdreseSubmit() {
+      var _this5 = this;
+
+      if (this.newAdrese != '') {
+        var data = {
+          adrese: this.newAdrese
+        };
+        this.app.req.post('data/newAdrese', data).then(function (response) {
+          _this5.newAdrese = '';
+          _this5.ipAdreses = response.data.adreses;
+        });
+      }
+    },
+    deleteAdrese: function deleteAdrese(index) {
+      var _this6 = this;
+
+      var data = {
+        id: this.ipAdreses[index].id
+      };
+      this.app.req.post('data/deleteAdrese', data).then(function (response) {
+        _this6.ipAdreses.splice(index, 1);
+      });
     }
   }
 });
@@ -3321,6 +3391,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'home',
   props: ['app'],
@@ -3339,7 +3416,9 @@ __webpack_require__.r(__webpack_exports__);
       defaultJobs: [],
       parastiJobs: [],
       newDefault: '',
-      newParasti: ''
+      newParasti: '',
+      filter: 'Pirmais',
+      render: true
     };
   },
   mounted: function mounted() {
@@ -3499,6 +3578,18 @@ __webpack_require__.r(__webpack_exports__);
       this.app.req.post('projekti/deletedefault', data).then(function (response) {
         _this8.defaultJobs.splice(index, 1);
       });
+    }
+  },
+  computed: {
+    projektiC: function projektiC() {
+      var _this9 = this;
+
+      this.filter;
+      this.render = false;
+      this.$nextTick(function () {
+        _this9.render = true;
+      });
+      return this.projekti;
     }
   }
 });
@@ -64752,6 +64843,15 @@ var render = function() {
             _c("div", { staticClass: "row mt-3" }, [
               _c("div", { staticClass: "col" }, [
                 _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-outline-primary",
+                    on: { click: _vm.exportData }
+                  },
+                  [_vm._v("Eksportēt uz Excel")]
+                ),
+                _vm._v(" "),
+                _c(
                   "table",
                   { staticClass: "table", attrs: { id: "darbiProjekta" } },
                   [
@@ -64818,7 +64918,95 @@ var render = function() {
       _vm.loading
         ? _c("spinner")
         : _c("div", { staticClass: "container" }, [
-            _c("h2", [_vm._v("Lietotāji")]),
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col-6" },
+                [
+                  _c("h2", [_vm._v("IP filtrs")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.ipAdreses, function(ip, i) {
+                    return _c("div", { key: i, staticClass: "row" }, [
+                      _c("div", { staticClass: "col" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(ip.adrese) +
+                                "\n                            "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-sm mx-2 btn-outline-danger",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteAdrese(i)
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", [
+                                  _c("i", { staticClass: "fas fa-trash-alt" })
+                                ])
+                              ]
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-2" }, [
+                    _c("div", { staticClass: "col" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-8" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.newAdrese,
+                                expression: "newAdrese"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.newAdrese },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.newAdrese = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-4" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success",
+                              on: { click: _vm.newAdreseSubmit }
+                            },
+                            [_vm._v("Pievienot")]
+                          )
+                        ])
+                      ])
+                    ])
+                  ])
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _c("h2", { staticClass: "mt-4" }, [_vm._v("Lietotāji")]),
             _vm._v(" "),
             _c("div", { staticClass: "row mb-3" }, [
               _c("div", { staticClass: "col" }, [
@@ -65940,89 +66128,173 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("table", { staticClass: "table table-striped table-hover" }, [
-              _c("thead", [
-                _c("tr", [
-                  _c("th", { attrs: { scope: "col" } }),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Nosaukums")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Pievienoja")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } }, [_vm._v("Darbi")]),
-                  _vm._v(" "),
-                  _c("th", { attrs: { scope: "col" } })
-                ])
-              ]),
-              _vm._v(" "),
+            _c("div", { staticClass: "row mb-3" }, [
               _c(
-                "tbody",
-                _vm._l(_vm.projekti, function(projekts, i) {
-                  return _c("tr", { key: i }, [
-                    _c("td", {
-                      class: {
-                        "bg-danger": projekts.stat == "closed",
-                        "bg-success": projekts.stat == "active"
-                      },
-                      attrs: { scope: "row" }
-                    }),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(i + 1))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(projekts.nosaukums))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(projekts.stat))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          projekts.user.vards + " " + projekts.user.uzvards
-                        )
-                      )
+                "div",
+                {
+                  staticClass:
+                    "col d-flex align-items-center justify-content-end"
+                },
+                [
+                  _c("label", { staticClass: "mr-4 col-form-label" }, [
+                    _vm._v("Meklēt:")
+                  ]),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.filter,
+                        expression: "filter"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    staticStyle: { "max-width": "200px" },
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.filter },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.filter = $event.target.value
+                      }
+                    }
+                  })
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _vm.render
+              ? _c(
+                  "table",
+                  { staticClass: "table table-striped table-hover" },
+                  [
+                    _c("thead", [
+                      _c("tr", [
+                        _c("th", { attrs: { scope: "col" } }),
+                        _vm._v(" "),
+                        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+                        _vm._v(" "),
+                        _c("th", { attrs: { scope: "col" } }, [
+                          _vm._v("Nosaukums")
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { attrs: { scope: "col" } }, [
+                          _vm._v("Status")
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { attrs: { scope: "col" } }, [
+                          _vm._v("Pievienoja")
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { attrs: { scope: "col" } }, [
+                          _vm._v("Darbi")
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { attrs: { scope: "col" } })
+                      ])
                     ]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(projekts.darbi))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-outline-secondary",
-                          on: {
-                            click: function($event) {
-                              return _vm.editProjectModal(projekts.id, i)
-                            }
-                          }
-                        },
-                        [_c("span", [_c("i", { staticClass: "far fa-edit" })])]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-outline-danger",
-                          on: {
-                            click: function($event) {
-                              return _vm.deleteProjectModal(projekts.id, i)
-                            }
-                          }
-                        },
-                        [
-                          _c("span", [
-                            _c("i", { staticClass: "fas fa-trash-alt" })
-                          ])
-                        ]
-                      )
-                    ])
-                  ])
-                }),
-                0
-              )
-            ])
+                    _c(
+                      "tbody",
+                      [
+                        _c("span", { staticClass: "d-none" }, [
+                          _vm._v(_vm._s(_vm.projektiC))
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.projekti, function(projekts, i) {
+                          return _c(
+                            "tr",
+                            {
+                              key: i,
+                              style: {
+                                display: !projekts.nosaukums.includes(
+                                  _vm.filter
+                                )
+                                  ? "none"
+                                  : "auto"
+                              }
+                            },
+                            [
+                              _c("td", {
+                                class: {
+                                  "bg-danger": projekts.stat == "closed",
+                                  "bg-success": projekts.stat == "active"
+                                },
+                                attrs: { scope: "row" }
+                              }),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(i + 1))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(projekts.nosaukums))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(projekts.stat))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(
+                                    projekts.user.vards +
+                                      " " +
+                                      projekts.user.uzvards
+                                  )
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(projekts.darbi))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-outline-secondary",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.editProjectModal(
+                                          projekts.id,
+                                          i
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("span", [
+                                      _c("i", { staticClass: "far fa-edit" })
+                                    ])
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-outline-danger",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deleteProjectModal(
+                                          projekts.id,
+                                          i
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("span", [
+                                      _c("i", {
+                                        staticClass: "fas fa-trash-alt"
+                                      })
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]
+                )
+              : _vm._e()
           ]),
       _vm._v(" "),
       _c(

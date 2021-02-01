@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdresesIp;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -10,7 +11,8 @@ class LietotajiController extends Controller
 {
     public function getAll(){
         $users = User::all();
-        return response()->json(['lietotaji' => $users], 200);
+        $a = AdresesIp::all();
+        return response()->json(['lietotaji' => $users, 'adreses' => $a], 200);
     }
 
     public function create(Request $request){

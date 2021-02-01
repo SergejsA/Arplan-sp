@@ -62,7 +62,13 @@
                 </div>
             </div>
 
-            <table class="table table-striped table-hover">
+            <div class="row mb-3">
+                <div class="col d-flex align-items-center justify-content-end">
+                    <label class="mr-4 col-form-label">Meklēt:</label><input type="text" v-model="filter" class="form-control" style="max-width:200px;">
+                </div>
+            </div>
+
+            <table class="table table-striped table-hover" v-if="render">
                 <thead>
                     <tr>
                         <th scope="col"></th>
@@ -75,7 +81,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(projekts, i) in projekti" :key="i">
+                    <span class="d-none">{{projektiC}}</span>
+                    <tr v-for="(projekts, i) in projekti" :key="i" :style="{'display':!projekts.nosaukums.includes(filter) ? 'none' : 'auto'}">
                         <td scope="row" :class="{'bg-danger':projekts.stat == 'closed','bg-success': projekts.stat == 'active'}"></td>
                         <td>{{i+1}}</td>
                         <td>{{ projekts.nosaukums }}</td>
@@ -212,6 +219,8 @@ export default {
             parastiJobs: [],
             newDefault: '',
             newParasti: '',
+            filter: 'Pirmais',
+            render: true
         }
     },
     mounted() {
@@ -346,6 +355,16 @@ export default {
             this.app.req.post('projekti/deletedefault', data).then(response => {
                 this.defaultJobs.splice(index, 1);
             });
+        },
+    },
+    computed: {
+        projektiC(){
+            this.filter;
+            this.render = false;
+            this.$nextTick(()=>{
+                this.render = true;
+            })
+            return this.projekti;
         }
     }
 }

@@ -29,6 +29,7 @@
             var BASE_URL = '{{ URL::to('/') }}';
         </script>
 
+        <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

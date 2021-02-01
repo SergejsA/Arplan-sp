@@ -42,6 +42,7 @@
             </div>
             <div class="row mt-3">
                 <div class="col">
+                    <button class="btn btn-outline-primary" @click="exportData">Eksportēt uz Excel</button>
                     <table id="darbiProjekta" class="table">
                         <tr><th>Nr</th><th>Darbs</th><th>Stundas</th></tr>
                         <tr v-for="i in labels.length" :key="i">
@@ -86,6 +87,19 @@ export default {
 
     },
     methods: {
+        exportData(){
+            var wb = XLSX.utils.book_new();
+            wb.SheetNames.push("Dati");
+            var ws_data = [['Nr', 'Darbs', 'Stundas']];
+            for(let i = 0; i < this.labels.length; i++){
+                ws_data.push([(i+1), this.labels[i], this.values[i]]);
+            }
+            var ws = XLSX.utils.aoa_to_sheet(ws_data);
+            wb.Sheets["Dati"] = ws;
+
+            XLSX.writeFile(wb, 'dati.xlsx');
+
+        },
         init(){
             this.loading = true;
             let loading1 = true, loading2 = true;

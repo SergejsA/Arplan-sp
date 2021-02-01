@@ -2,7 +2,33 @@
     <div class="container-fluid m-0 p-0 px-5 mt-4">
         <spinner v-if="loading"></spinner>
         <div class="container" v-else>
-            <h2>Lietotāji</h2>
+            <div class="row">
+                <div class="col-6">
+                    <h2>IP filtrs</h2>
+                    <div class="row" v-for="(ip, i) in ipAdreses" :key="i">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    {{ ip.adrese }}
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-sm mx-2 btn-outline-danger" @click="deleteAdrese(i)"><span><i class="fas fa-trash-alt"></i></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-8"><input type="text" class="form-control" v-model="newAdrese"></div>
+                                <div class="col-4"><button class="btn btn-success" @click="newAdreseSubmit">Pievienot</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="mt-4">Lietotāji</h2>
             <div class="row mb-3">
                 <div class="col">
                     <button class="btn btn-success d-block ml-auto" @click="openNewModal">+ Pievienot jaunu</button>
@@ -182,6 +208,8 @@ export default {
             deleteId: 0,
             editId: 0,
             editIndex: 0,
+            ipAdreses: [],
+            newAdrese: ''
         }
     },
     mounted() {
@@ -195,6 +223,7 @@ export default {
             this.loading = true;
             this.app.req.get('lietotaji/getAll').then(response => {
                 this.lietotaji = response.data.lietotaji;
+                this.ipAdreses = response.data.adreses;
                 this.loading = false;
             });
         },
@@ -288,7 +317,26 @@ export default {
                     this.errors.push(error.response.data.error);
                 });
             }
-        }
+        },
+        newAdreseSubmit(){
+            if(this.newAdrese != ''){
+                const data = {
+                    adrese: this.newAdrese
+                };
+                this.app.req.post('data/newAdrese', data).then(response => {
+                    this.newAdrese = '';
+                    this.ipAdreses = response.data.adreses;
+                });
+            }
+        },
+        deleteAdrese(index){
+            const data = {
+                id: this.ipAdreses[index].id
+            };
+            this.app.req.post('data/deleteAdrese', data).then(response => {
+                this.ipAdreses.splice(index, 1);
+            });
+        },
     }
 }
 </script>

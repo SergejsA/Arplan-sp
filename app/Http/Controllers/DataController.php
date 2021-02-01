@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdresesIp;
 use App\Models\Data;
 use App\Models\Project;
 use App\Models\User;
@@ -98,7 +99,7 @@ class DataController extends Controller
     }
 
     public function getAll(Request $request){
-        $users = User::where('tips', '!=', 'system_admin')->orderBy('uzvards', 'asc')->get();
+        $users = User::where('tips', '!=', 'system_admin')->where('tips', '!=', 'deactive')->orderBy('uzvards', 'asc')->get();
         $date = date('Y-m-d', strtotime($request->datums));
         $m = date('m', strtotime($date));
         $g = date('Y', strtotime($date));
@@ -258,4 +259,24 @@ class DataController extends Controller
 
         return response()->json(['labels' => $labels, 'values' => $values]);
     }
+
+    public function newAdrese(Request $request){
+        $a = new AdresesIp();
+        $a->adrese = $request->adrese;
+        $a->save();
+
+        $add = AdresesIp::all();
+
+        return response()->json(['adreses' => $add]);
+    }
+
+    public function deleteAdrese(Request $request){
+        $a = AdresesIp::find($request->id);
+        $a->delete();
+
+        $add = AdresesIp::all();
+
+        return response()->json(['adreses' => $add]);
+    }
+
 }
