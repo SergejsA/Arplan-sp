@@ -66212,9 +66212,9 @@ var render = function() {
                             {
                               key: i,
                               style: {
-                                display: !projekts.nosaukums.includes(
-                                  _vm.filter
-                                )
+                                display: !projekts.nosaukums
+                                  .toLowerCase()
+                                  .includes(_vm.filter.toLowerCase())
                                   ? "none"
                                   : "auto"
                               }

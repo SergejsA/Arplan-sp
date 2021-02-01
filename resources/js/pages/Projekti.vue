@@ -82,7 +82,7 @@
                 </thead>
                 <tbody>
                     <span class="d-none">{{projektiC}}</span>
-                    <tr v-for="(projekts, i) in projekti" :key="i" :style="{'display':!projekts.nosaukums.includes(filter) ? 'none' : 'auto'}">
+                    <tr v-for="(projekts, i) in projekti" :key="i" :style="{'display':!projekts.nosaukums.toLowerCase().includes(filter.toLowerCase()) ? 'none' : 'auto'}">
                         <td scope="row" :class="{'bg-danger':projekts.stat == 'closed','bg-success': projekts.stat == 'active'}"></td>
                         <td>{{i+1}}</td>
                         <td>{{ projekts.nosaukums }}</td>
