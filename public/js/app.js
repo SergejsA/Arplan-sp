@@ -64926,7 +64926,7 @@ var render = function() {
                 "div",
                 { staticClass: "col-6" },
                 [
-                  _c("h2", [_vm._v("IP filtrs")]),
+                  _c("h2", [_vm._v("IP filtrs (atļautās)")]),
                   _vm._v(" "),
                   _vm._l(_vm.ipAdreses, function(ip, i) {
                     return _c("div", { key: i, staticClass: "row" }, [

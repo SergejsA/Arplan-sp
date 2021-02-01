@@ -4,7 +4,7 @@
         <div class="container" v-else>
             <div class="row">
                 <div class="col-6">
-                    <h2>IP filtrs</h2>
+                    <h2>IP filtrs (atļautās)</h2>
                     <div class="row" v-for="(ip, i) in ipAdreses" :key="i">
                         <div class="col">
                             <div class="row">
