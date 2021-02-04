@@ -1,7 +1,7 @@
 <?php
 // include_once("../db_conx.php");
 // include_once("../lapaURL.php");
-$db_conx = mysqli_connect('localhost', 'root', '', 'su');
+$db_conx = mysqli_connect('localhost', 'u506865002', 'Stundas10', 'u506865002_stundas');
 $dayNum = date("N", strtotime(date("d.m.Y")));
 $nedelasSakums = date("Y-m-d", strtotime((1-$dayNum)." days", strtotime(date("d.m.Y"))));
 $sql = "SELECT email, id, vards, uzvards FROM users WHERE tips='admin' OR tips='user' ORDER BY id ASC";
