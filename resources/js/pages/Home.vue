@@ -18,7 +18,7 @@
             </tr>
             <tr>
                 <th style="min-width:300px;">Darbu veidi</th>
-                <th v-for="i in 7" :key="i" :class="{'brivdienacol6':i == 6, 'brivdienacol7':i == 7, 'sodienacol':i==currentDay && nedelas_nr == todayWeek}" style="text-align:center;">
+                <th v-for="i in 7" :key="i" :class="{'brivdienacol6':i == 6, 'brivdienacol7':i == 7, 'sodienacol':i==currentDay && nedelas_nr == todayWeek && i != 6 && i != 7}" style="text-align:center;">
                     {{ getDateMonth(i-1) }}
                 </th>
             </tr>
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </td>
-                <td v-for="i in 7" :key="i" :class="{'brivdienacol6':i == 6, 'brivdienacol7':i == 7, 'sodienacol':i==currentDay && nedelas_nr == todayWeek}" style="text-align:center;">
+                <td v-for="i in 7" :key="i" :class="{'brivdienacol6':i == 6, 'brivdienacol7':i == 7, 'sodienacol':i==currentDay && nedelas_nr == todayWeek && i != 6 && i != 7}" style="text-align:center;">
                     <input type='text' :id="'ilgums'+(i-1)" class='text-center form-control' v-model="addRow[i-1]" style="width:50px;margin:0 auto;">
                 </td>
                 <td><button id="addDatiButton" class="btn btn-success btn-sm" @click="addIlgumi">Pievienot</button></td>
@@ -48,7 +48,7 @@
                     <label v-if="i==0 || nedelasData[i-1].project.nosaukums != d.project.nosaukums"><b>{{ d.project.nosaukums }}</b></label>
                     <label style="float:right;">{{ d.darbs }}</label>
                 </td>
-                <td v-for="(ilgums, j) in ilgumi(d.ilgums)" :key="'data'+j" :class="{'brivdienacol6':j == 5, 'brivdienacol7':j == 6, 'sodienacol':j==currentDay-1 && nedelas_nr == todayWeek}" style="text-align:center;">
+                <td v-for="(ilgums, j) in ilgumi(d.ilgums)" :key="'data'+j" :class="{'brivdienacol6':j == 5, 'brivdienacol7':j == 6, 'sodienacol':j==currentDay-1 && nedelas_nr == todayWeek && j != 5 && j != 6}" style="text-align:center;">
                     <input type='text' class='text-center form-control' v-model="editRow[j]" style="width:50px;margin:0 auto;" v-if="editId == d.id">
                     <span v-else>{{ ilgums }}</span>
                 </td>
@@ -63,7 +63,7 @@
             </tr>
             <tr>
                 <td style="text-align:right;"><b>Kopā:</b></td>
-                <td v-for="(ilgums, j) in ilgumiKopa" :key="'datakopa'+j" :class="{'brivdienacol6':j == 5, 'brivdienacol7':j == 6, 'sodienacol':j==currentDay-1 && nedelas_nr == todayWeek}" class="beigas" style="text-align:center;">
+                <td v-for="(ilgums, j) in ilgumiKopa" :key="'datakopa'+j" :class="{'brivdienacol6':j == 5, 'brivdienacol7':j == 6, 'sodienacol':j==currentDay-1 && nedelas_nr == todayWeek && j != 6 && j != 7}" class="beigas" style="text-align:center;">
                     <b>{{ ilgums }}</b>
                 </td>
             </tr>
@@ -78,9 +78,9 @@ export default {
     data(){
         return {
             loading: false,
-            currentDay: new Date().getDay(),
-            datums: new Date(new Date().setDate(new Date().getDate() - new Date().getDay() + 1)),
-            todayWeek: this.getWeekNumber(new Date()),
+            currentDay: new Date().getDay() == 0 ? 7 : new Date().getDay(),
+            datums: new Date(new Date().setDate(new Date().getDate() - (new Date().getDay() == 0 ? 7 : new Date().getDay()) + 1)),
+            todayWeek: this.getWeekNumber(new Date(new Date().setDate(new Date().getDate() - (new Date().getDay() == 0 ? 7 : new Date().getDay()) + 1))),
             projekti: [],
             darbi: [],
             data: [],
@@ -147,7 +147,7 @@ export default {
             d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
             var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-            var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+            var weekNo = Math.ceil(( ( (d - yearStart) / 86400000)+1)/7);
             return weekNo;
         },
         getDateMonth(i){
@@ -194,6 +194,7 @@ export default {
             this.app.req.post('data/add', data).then(response => {
                 this.data = response.data.data;
                 this.addRow = ['', '', '', '', '', '', ''];
+                $("#addDatiButton").blur();
             });
         },
         deleteData(id){
@@ -220,6 +221,7 @@ export default {
             this.app.req.post('data/edit', data).then(response => {
                 this.editId = -1;
                 this.data = response.data.data;
+
             });
         }
     },

@@ -1,13 +1,14 @@
 <?php
 // include_once("../db_conx.php");
 // include_once("../lapaURL.php");
+file_put_contents("log.txt", date("d.m.Y")." Saka apstradi \n", FILE_APPEND);
 $db_conx = mysqli_connect('localhost', 'u506865002', 'Stundas10', 'u506865002_stundas');
 $dayNum = date("N", strtotime(date("d.m.Y")));
 $nedelasSakums = date("Y-m-d", strtotime((1-$dayNum)." days", strtotime(date("d.m.Y"))));
 $sql = "SELECT email, id, vards, uzvards FROM users WHERE tips='admin' OR tips='user' ORDER BY id ASC";
 $query = mysqli_query($db_conx, $sql);
 while($rowLiet = mysqli_fetch_row($query)){
-    //echo $rowLiet[1]."\n";
+    echo $rowLiet[1]."\n";
     if($dayNum != 6 && $dayNum != 7){
         $sqlDati = "SELECT ilgums FROM data WHERE daritaja_id=".$rowLiet[1]." AND datums='".$nedelasSakums."'";
         $queryDati = mysqli_query($db_conx, $sqlDati);
@@ -47,7 +48,7 @@ while($rowLiet = mysqli_fetch_row($query)){
             $arrayDati = array($arrayIlgumsKopa[$dayNum-2], $arrayIlgumsKopa[$dayNum-3]);
         }
         if($arrayDati[0] == 0 && $arrayDati[1] == 0){
-            // echo "<p>".$rowLiet[1]."</p>";
+            echo "<p>".$rowLiet[1]."</p>";
             $to = $rowLiet[0];
         $subject = "Nav ievadīti dati Sitera stundu uzskaites sistēmā";
 
@@ -103,7 +104,7 @@ while($rowLiet = mysqli_fetch_row($query)){
         $headers .= 'From: <no-reply@sitera.lv>' . "\r\n";
         /*$headers .= 'Cc: myboss@example.com' . "\r\n";*/
         mail($to,$subject,$message,$headers);
-    //     file_put_contents("log.txt", date("d.m.Y")." ".$rowLiet[2]." ".$rowLiet[3]."\n", FILE_APPEND);
+        file_put_contents("log.txt", date("d.m.Y")." ".$rowLiet[2]." ".$rowLiet[3]."\n", FILE_APPEND);
         }
     }
 }

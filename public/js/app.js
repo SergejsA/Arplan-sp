@@ -2144,9 +2144,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       loading: false,
-      currentDay: new Date().getDay(),
-      datums: new Date(new Date().setDate(new Date().getDate() - new Date().getDay() + 1)),
-      todayWeek: this.getWeekNumber(new Date()),
+      currentDay: new Date().getDay() == 0 ? 7 : new Date().getDay(),
+      datums: new Date(new Date().setDate(new Date().getDate() - (new Date().getDay() == 0 ? 7 : new Date().getDay()) + 1)),
+      todayWeek: this.getWeekNumber(new Date(new Date().setDate(new Date().getDate() - (new Date().getDay() == 0 ? 7 : new Date().getDay()) + 1))),
       projekti: [],
       darbi: [],
       data: [],
@@ -2273,6 +2273,7 @@ __webpack_require__.r(__webpack_exports__);
       this.app.req.post('data/add', data).then(function (response) {
         _this4.data = response.data.data;
         _this4.addRow = ['', '', '', '', '', '', ''];
+        $("#addDatiButton").blur();
       });
     },
     deleteData: function deleteData(id) {
@@ -64108,7 +64109,10 @@ var render = function() {
                         brivdienacol6: i == 6,
                         brivdienacol7: i == 7,
                         sodienacol:
-                          i == _vm.currentDay && _vm.nedelas_nr == _vm.todayWeek
+                          i == _vm.currentDay &&
+                          _vm.nedelas_nr == _vm.todayWeek &&
+                          i != 6 &&
+                          i != 7
                       },
                       staticStyle: { "text-align": "center" }
                     },
@@ -64232,7 +64236,10 @@ var render = function() {
                         brivdienacol6: i == 6,
                         brivdienacol7: i == 7,
                         sodienacol:
-                          i == _vm.currentDay && _vm.nedelas_nr == _vm.todayWeek
+                          i == _vm.currentDay &&
+                          _vm.nedelas_nr == _vm.todayWeek &&
+                          i != 6 &&
+                          i != 7
                       },
                       staticStyle: { "text-align": "center" }
                     },
@@ -64307,7 +64314,9 @@ var render = function() {
                           brivdienacol7: j == 6,
                           sodienacol:
                             j == _vm.currentDay - 1 &&
-                            _vm.nedelas_nr == _vm.todayWeek
+                            _vm.nedelas_nr == _vm.todayWeek &&
+                            j != 5 &&
+                            j != 6
                         },
                         staticStyle: { "text-align": "center" }
                       },
@@ -64400,7 +64409,9 @@ var render = function() {
                         brivdienacol7: j == 6,
                         sodienacol:
                           j == _vm.currentDay - 1 &&
-                          _vm.nedelas_nr == _vm.todayWeek
+                          _vm.nedelas_nr == _vm.todayWeek &&
+                          j != 6 &&
+                          j != 7
                       },
                       staticStyle: { "text-align": "center" }
                     },
