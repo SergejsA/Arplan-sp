@@ -59,7 +59,7 @@ while($rowLiet = mysqli_fetch_row($query)){
         </head>
         <body>
             <header id='top_header'>
-                    <img src='http:://su.sitera.lv/logo.jpg' style='float:left;' height='75px'><h2 id='nosaukumsheading'>Stundu uzskaite</h2>
+                <h2 id='nosaukumsheading'>Stundu uzskaite</h2>
             </header>
             <div id='main_div'>
                 <p>
