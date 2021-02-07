@@ -2,7 +2,7 @@
 // include_once("../db_conx.php");
 // include_once("../lapaURL.php");
 file_put_contents("log.txt", date("d.m.Y")." Saka apstradi \n", FILE_APPEND);
-$db_conx = mysqli_connect('localhost', 'u506865002', 'Stundas10', 'u506865002_stundas');
+$db_conx = mysqli_connect('localhost', 'u506865002_stundas', 'Stundas10', 'u506865002_stundas');
 $dayNum = date("N", strtotime(date("d.m.Y")));
 $nedelasSakums = date("Y-m-d", strtotime((1-$dayNum)." days", strtotime(date("d.m.Y"))));
 $sql = "SELECT email, id, vards, uzvards FROM users WHERE tips='admin' OR tips='user' ORDER BY id ASC";
