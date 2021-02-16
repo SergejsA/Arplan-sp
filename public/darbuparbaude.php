@@ -3,6 +3,7 @@
 // include_once("../lapaURL.php");
 file_put_contents("log.txt", date("d.m.Y")." Saka apstradi \n", FILE_APPEND);
 $db_conx = mysqli_connect('localhost', 'u506865002_stundas', 'Stundas10', 'u506865002_stundas');
+// $db_conx = mysqli_connect('localhost', 'root', '', 'su');
 $dayNum = date("N", strtotime(date("d.m.Y")));
 $nedelasSakums = date("Y-m-d", strtotime((1-$dayNum)." days", strtotime(date("d.m.Y"))));
 $sql = "SELECT email, id, vards, uzvards FROM users WHERE tips='admin' OR tips='user' ORDER BY id ASC";
@@ -21,7 +22,7 @@ while($rowLiet = mysqli_fetch_row($query)){
         }
         if($dayNum == 2){
             $pirmaDiena = $arrayIlgumsKopa[0];
-            $nedelasieprieks = date("Y-m-d", strtotime("-7 days", strtotime(date("d.m.Y"))));
+            $nedelasieprieks = date("Y-m-d", strtotime("-7 days", strtotime($nedelasSakums)));
             $sqlDati = "SELECT ilgums FROM data WHERE daritaja_id=".$rowLiet[1]." AND datums='".$nedelasieprieks."'";
             $queryDati = mysqli_query($db_conx, $sqlDati);
             $arrayIlgumsKopa = array(0,0,0,0,0,0,0);

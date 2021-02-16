@@ -2138,6 +2138,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'home',
   props: ['app'],
@@ -2252,17 +2288,35 @@ __webpack_require__.r(__webpack_exports__);
       var kopa = this.ilgumiKopa;
 
       for (var i = 0; i < a.length; i++) {
+        if (isNaN(a[i])) {
+          return "error";
+        }
+
+        if (parseFloat(a[i]) + kopa[i] > 24) {
+          return "too_much";
+        }
+
         if (isNaN(a[i]) || parseFloat(a[i]) + kopa[i] > 24) {
           a[i] = '0';
         }
 
-        s += i + 1 + "=" + (a[i] == '' ? '0' : a[i]) + ";";
+        s += i + 1 + "=" + (a[i] == '' ? '0' : parseFloat(a[i])) + ";";
       }
 
       return s;
     },
     addIlgumi: function addIlgumi() {
       var _this4 = this;
+
+      if (this.getIlgumsString(this.addRow) == "too_much") {
+        $("#tooMuchModal").modal('show');
+        return;
+      }
+
+      if (this.getIlgumsString(this.addRow) == "error") {
+        $("#incorrectModal").modal('show');
+        return;
+      }
 
       var data = {
         project_id: this.project == '-' ? 0 : this.project,
@@ -2296,6 +2350,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     saveData: function saveData() {
       var _this6 = this;
+
+      if (this.getIlgumsString(this.editRow) == "too_much") {
+        $("#tooMuchModal").modal('show');
+        return;
+      }
+
+      if (this.getIlgumsString(this.editRow) == "error") {
+        $("#incorrectModal").modal('show');
+        return;
+      }
 
       var data = {
         id: this.editId,
@@ -64423,7 +64487,11 @@ var render = function() {
             )
           ],
           2
-        )
+        ),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _vm._m(2)
       ])
     : _vm._e()
 }
@@ -64435,6 +64503,140 @@ var staticRenderFns = [
     return _c("td", { staticStyle: { "text-align": "right" } }, [
       _c("b", [_vm._v("Kopā:")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "tooMuchModal",
+          tabindex: "-1",
+          "aria-labelledby": "tooMuchModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _c(
+                "h5",
+                {
+                  staticClass: "modal-title",
+                  attrs: { id: "exampleModalLabel" }
+                },
+                [_vm._v("Kļūda")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: {
+                    type: "button",
+                    "data-dismiss": "modal",
+                    "aria-label": "Close"
+                  }
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×")
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("p", [
+                _vm._v(
+                  "Dienā ir tikai 24 stundas. Ievadīts vairāk par 24 stundām vienā dienā."
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("Labi")]
+              )
+            ])
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "incorrectModal",
+          tabindex: "-1",
+          "aria-labelledby": "incorrectModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _c(
+                "h5",
+                {
+                  staticClass: "modal-title",
+                  attrs: { id: "exampleModalLabel" }
+                },
+                [_vm._v("Kļūda")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: {
+                    type: "button",
+                    "data-dismiss": "modal",
+                    "aria-label": "Close"
+                  }
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×")
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("p", [_vm._v("Ievadītās stundas neatbilst skaitļu formātam!")])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("Labi")]
+              )
+            ])
+          ])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true

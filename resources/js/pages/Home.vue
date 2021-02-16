@@ -68,6 +68,42 @@
                 </td>
             </tr>
         </table>
+        <div class="modal fade" id="tooMuchModal" tabindex="-1" aria-labelledby="tooMuchModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Kļūda</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Dienā ir tikai 24 stundas. Ievadīts vairāk par 24 stundām vienā dienā.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Labi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="incorrectModal" tabindex="-1" aria-labelledby="incorrectModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Kļūda</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Ievadītās stundas neatbilst skaitļu formātam!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Labi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -176,14 +212,28 @@ export default {
             let s = '';
             let kopa = this.ilgumiKopa;
             for(let i = 0; i < a.length; i++){
+                if(isNaN(a[i])){
+                    return "error";
+                }
+                if(parseFloat(a[i])+kopa[i] > 24){
+                    return "too_much";
+                }
                 if(isNaN(a[i]) || parseFloat(a[i])+kopa[i] > 24){
                     a[i] = '0';
                 }
-                s += (i+1)+"="+(a[i] == '' ? '0' : a[i])+";";
+                s += (i+1)+"="+(a[i] == '' ? '0' : parseFloat(a[i]))+";";
             }
             return s;
         },
         addIlgumi(){
+            if(this.getIlgumsString(this.addRow) == "too_much"){
+                $("#tooMuchModal").modal('show');
+                return;
+            }
+            if(this.getIlgumsString(this.addRow) == "error"){
+                $("#incorrectModal").modal('show');
+                return;
+            }
             const data = {
                 project_id: this.project == '-' ? 0 : this.project,
                 job: this.job,
@@ -214,6 +264,14 @@ export default {
             }
         },
         saveData(){
+            if(this.getIlgumsString(this.editRow) == "too_much"){
+                $("#tooMuchModal").modal('show');
+                return;
+            }
+            if(this.getIlgumsString(this.editRow) == "error"){
+                $("#incorrectModal").modal('show');
+                return;
+            }
             const data = {
                 id: this.editId,
                 ilgums: this.getIlgumsString(this.editRow)
