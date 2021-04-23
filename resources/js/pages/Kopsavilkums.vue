@@ -50,6 +50,7 @@
                             <td>{{labels[i-1]}}</td>
                             <td>{{values[i-1]}}</td>
                         </tr>
+                        <tr v-if="values.length"><td></td><td><b>Kopā:</b></td><td>{{ sum }}</td></tr>
                     </table>
                 </div>
             </div>
@@ -84,21 +85,45 @@ export default {
     },
     mounted(){
         this.init();
-
+        // console.log(this.app.user);
+        // this.user = this.app.user.tips == 'user' ? this.app.user.id : 'visi';
     },
     methods: {
         exportData(){
             var wb = XLSX.utils.book_new();
             wb.SheetNames.push("Dati");
-            var ws_data = [['Nr', 'Darbs', 'Stundas']];
+            let vm = this;
+            let lietotajs = this.user == 'visi' ? 'Visi' : this.lietotaji.filter(function(l){
+                return l.id == vm.user;
+            })[0];
+            let l_text = lietotajs == 'Visi' ? "Par visiem lietotājiem " : "Par lietotāju " + lietotajs.vards + " " + lietotajs.uzvards + " ";
+            let projekts = this.project == '0' ? '-' : this.projekti.filter(function(p){
+                return p.id == parseInt(vm.project);
+            })[0];
+            let p_text = projekts == '-' ? "-" : projekts.nosaukums;
+            var ws_data = [[l_text+"Projektā "+p_text+" periodā "+(this.no == null ? "-" : this.formatDate(this.no))+":"+(this.lidz == null ? "-" : this.formatDate(this.lidz))], ['Nr', 'Darbs', 'Stundas']];
+            let max_garums = 0;
             for(let i = 0; i < this.labels.length; i++){
                 ws_data.push([(i+1), this.labels[i], this.values[i]]);
+                max_garums = this.labels[i].length > max_garums ? this.labels[i].length : max_garums;
             }
             var ws = XLSX.utils.aoa_to_sheet(ws_data);
             wb.Sheets["Dati"] = ws;
 
+            var wscols = [
+                { width: 10 },
+                { width: max_garums },
+                { width: 10 },
+            ];
+
+            wb.Sheets["Dati"]["!cols"] = wscols;
+
             XLSX.writeFile(wb, 'dati.xlsx');
 
+        },
+        formatDate(date){
+            let d = date.split("-");
+            return d[2]+"."+d[1]+"."+d[0];
         },
         init(){
             this.loading = true;
@@ -197,7 +222,16 @@ export default {
         }
     },
     computed:{
-
+        sum(){
+            if(this.values.length == 0){
+                return 0;
+            }
+            let sum = 0;
+            for(let i = 0; i < this.values.length; i++){
+                sum += this.values[i];
+            }
+            return sum;
+        }
     }
 }
 </script>

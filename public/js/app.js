@@ -2644,6 +2644,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'kopsavilkums',
   props: ['app'],
@@ -2662,21 +2663,45 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.init();
+    this.init(); // console.log(this.app.user);
+    // this.user = this.app.user.tips == 'user' ? this.app.user.id : 'visi';
   },
   methods: {
     exportData: function exportData() {
       var wb = XLSX.utils.book_new();
       wb.SheetNames.push("Dati");
-      var ws_data = [['Nr', 'Darbs', 'Stundas']];
+      var vm = this;
+      var lietotajs = this.user == 'visi' ? 'Visi' : this.lietotaji.filter(function (l) {
+        return l.id == vm.user;
+      })[0];
+      var l_text = lietotajs == 'Visi' ? "Par visiem lietotājiem " : "Par lietotāju " + lietotajs.vards + " " + lietotajs.uzvards + " ";
+      var projekts = this.project == '0' ? '-' : this.projekti.filter(function (p) {
+        return p.id == parseInt(vm.project);
+      })[0];
+      var p_text = projekts == '-' ? "-" : projekts.nosaukums;
+      var ws_data = [[l_text + "Projektā " + p_text + " periodā " + (this.no == null ? "-" : this.formatDate(this.no)) + ":" + (this.lidz == null ? "-" : this.formatDate(this.lidz))], ['Nr', 'Darbs', 'Stundas']];
+      var max_garums = 0;
 
       for (var i = 0; i < this.labels.length; i++) {
         ws_data.push([i + 1, this.labels[i], this.values[i]]);
+        max_garums = this.labels[i].length > max_garums ? this.labels[i].length : max_garums;
       }
 
       var ws = XLSX.utils.aoa_to_sheet(ws_data);
       wb.Sheets["Dati"] = ws;
+      var wscols = [{
+        width: 10
+      }, {
+        width: max_garums
+      }, {
+        width: 10
+      }];
+      wb.Sheets["Dati"]["!cols"] = wscols;
       XLSX.writeFile(wb, 'dati.xlsx');
+    },
+    formatDate: function formatDate(date) {
+      var d = date.split("-");
+      return d[2] + "." + d[1] + "." + d[0];
     },
     init: function init() {
       var _this = this;
@@ -2786,7 +2811,21 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  computed: {}
+  computed: {
+    sum: function sum() {
+      if (this.values.length == 0) {
+        return 0;
+      }
+
+      var sum = 0;
+
+      for (var i = 0; i < this.values.length; i++) {
+        sum += this.values[i];
+      }
+
+      return sum;
+    }
+  }
 });
 
 /***/ }),
@@ -65087,7 +65126,15 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(_vm.values[i - 1]))])
                       ])
-                    })
+                    }),
+                    _vm._v(" "),
+                    _vm.values.length
+                      ? _c("tr", [
+                          _c("td"),
+                          _c("td", [_c("b", [_vm._v("Kopā:")])]),
+                          _c("td", [_vm._v(_vm._s(_vm.sum))])
+                        ])
+                      : _vm._e()
                   ],
                   2
                 )
