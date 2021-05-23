@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ResetPasswordMailable;
 use App\Models\AdresesIp;
 use App\Models\PasswordReset;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,19 +18,36 @@ class AppController extends Controller
 {
     public function init(Request $request){
 
-        $ip = $request->ip();
-        $ips = AdresesIp::all();
-        $atlauts = false;
-        foreach($ips as $i){
-            if($i->adrese == $ip){
-                $atlauts = true;
-                break;
+        $atlauts = true;
+        $setting_ip = Setting::where('name', 'ip_filter')->get();
+        if(sizeof($setting_ip) != 0 && intval($setting_ip[0]->value) == 1){
+            $ip = $request->ip();
+            $ips = AdresesIp::all();
+            $atlauts = false;
+            foreach($ips as $i){
+                if($i->adrese == $ip){
+                    $atlauts = true;
+                    break;
+                }
             }
         }
 
-
         $user = Auth::user();
-        return response()->json(['user' => $user, 'ip' => ($atlauts ? 'ir' : 'nav')], 200);
+
+        $users = User::all();
+        $need_init = false;
+        if(sizeof($users) == 0){
+            $need_init = true;
+        }
+
+        $firma = Setting::where('name', 'firma')->get();
+        if(sizeof($firma) > 0){
+            $f_nos = $firma[0]->value;
+        }else{
+            $f_nos = "FIRMA";
+        }
+
+        return response()->json(['user' => $user, 'ip' => ($atlauts ? 'ir' : 'nav'), 'need_init' => $need_init, 'firma' => $f_nos], 200);
     }
 
     public function login(Request $request){

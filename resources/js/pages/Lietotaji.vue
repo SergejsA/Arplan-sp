@@ -5,23 +5,35 @@
             <div class="row">
                 <div class="col-6">
                     <h2>IP filtrs (atļautās)</h2>
-                    <div class="row" v-for="(ip, i) in ipAdreses" :key="i">
+                    <div class="row">
                         <div class="col">
-                            <div class="row">
-                                <div class="col">
-                                    {{ ip.adrese }}
-                                </div>
-                                <div class="col">
-                                    <button class="btn btn-sm mx-2 btn-outline-danger" @click="deleteAdrese(i)"><span><i class="fas fa-trash-alt"></i></span></button>
-                                </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="ipFilter" v-model="useIP" @change="changeIPSetting">
+                                <label class="form-check-label" for="ipFilter">
+                                    Lietot IP adrešu filtru
+                                </label>
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col">
-                            <div class="row">
-                                <div class="col-8"><input type="text" class="form-control" v-model="newAdrese"></div>
-                                <div class="col-4"><button class="btn btn-success" @click="newAdreseSubmit">Pievienot</button></div>
+                    <div v-if="useIP">
+                        <div class="row" v-for="(ip, i) in ipAdreses" :key="i">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        {{ ip.adrese }}
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-sm mx-2 btn-outline-danger" @click="deleteAdrese(i)"><span><i class="fas fa-trash-alt"></i></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-8"><input type="text" class="form-control" v-model="newAdrese"></div>
+                                    <div class="col-4"><button class="btn btn-success" @click="newAdreseSubmit">Pievienot</button></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -209,7 +221,8 @@ export default {
             editId: 0,
             editIndex: 0,
             ipAdreses: [],
-            newAdrese: ''
+            newAdrese: '',
+            useIP: false
         }
     },
     mounted() {
@@ -224,6 +237,7 @@ export default {
             this.app.req.get('lietotaji/getAll').then(response => {
                 this.lietotaji = response.data.lietotaji;
                 this.ipAdreses = response.data.adreses;
+                this.useIP = response.data.useIP;
                 this.loading = false;
             });
         },
@@ -337,6 +351,14 @@ export default {
                 this.ipAdreses.splice(index, 1);
             });
         },
+        changeIPSetting(){
+            const data = {
+                ip: this.useIP
+            };
+            this.app.req.post('settings/changeIPSetting', data).then(response => {
+                this.ipAdreses = response.data.adreses;
+            });
+        }
     }
 }
 </script>

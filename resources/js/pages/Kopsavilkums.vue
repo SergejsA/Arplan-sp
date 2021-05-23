@@ -38,7 +38,6 @@
                         </select>
                     </div>
                 </div>
-                <!-- <div id="CSVLinks" style="padding:10px 0;float:left;"><a href="scripts/iegustCSV.csv" download="iegutCSV.csv" style="text-decoration:none;color:blue;">Iegūt .csv datni</a></div> -->
             </div>
             <div class="row mt-3">
                 <div class="col">

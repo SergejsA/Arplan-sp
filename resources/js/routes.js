@@ -5,6 +5,7 @@ import Lietotaji from './pages/Lietotaji';
 import Projekti from './pages/Projekti';
 import Kontrole from './pages/Kontrole';
 import ResetPassword from './pages/ResetPassword';
+import FirstInit from './pages/FirstInit';
 
 export default [
     {
@@ -41,5 +42,10 @@ export default [
         path: '/reset-password',
         component: ResetPassword,
         name: 'resetPassword'
+    },
+    {
+        path: '/first-init',
+        component: FirstInit,
+        name: 'firstInit'
     }
 ]

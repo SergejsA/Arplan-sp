@@ -24,7 +24,8 @@ export default {
             req: axios.create({
                 baseUrl: BASE_URL
             }),
-            base_url: BASE_URL
+            base_url: BASE_URL,
+            firma: 'Bez nosakuma'
         }
     },
     mounted(){
@@ -37,15 +38,22 @@ export default {
                 a: 'test'
             };
             this.req.post('auth/init', data).then(response => {
-                this.user = response.data.user;
-                if(response.data.ip == 'nav'){
-                    window.location.href = "https://google.com";
+                if(response.data.need_init){
+                    this.loading = false;
+                    this.initiated = true;
+                    this.$router.push('/first-init');
+                }else{
+                    this.firma = response.data.firma;
+                    this.user = response.data.user;
+                    if(response.data.ip == 'nav'){
+                        window.location.href = "https://google.com";
+                    }
+                    if(this.user == null){
+                        this.$router.push('/login');
+                    }
+                    this.loading = false;
+                    this.initiated = true;
                 }
-                if(this.user == null){
-                    this.$router.push('/login');
-                }
-                this.loading = false;
-                this.initiated = true;
             })
         },
     }

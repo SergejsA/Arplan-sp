@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg navbar-dark bg-sitera">
-            <router-link to="/" class="navbar-brand">Sitera</router-link>
+            <router-link to="/" class="navbar-brand">{{ app.firma }}</router-link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

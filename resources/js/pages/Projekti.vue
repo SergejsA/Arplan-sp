@@ -236,7 +236,6 @@ export default {
                 this.projekti = response.data.projekti;
                 this.defaultJobs = response.data.default;
                 this.parastiJobs = response.data.parasti;
-                console.log(this.projekti);
                 this.loading = false;
             });
         },

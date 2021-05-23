@@ -4,6 +4,7 @@ use App\Http\Controllers\AppController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\LietotajiController;
 use App\Http\Controllers\ProjektiController;
+use App\Http\Controllers\SettingsController;
 use App\Mail\ResetPasswordMailable;
 use App\Models\User;
 use GuzzleHttp\Psr7\Request;
@@ -68,6 +69,8 @@ Route::prefix('data')->group(function(){
     Route::post('deleteAdrese', [DataController::class, 'deleteAdrese']);
 });
 
-// Auth::routes();
+Route::prefix('settings')->group(function(){
+    Route::post('firstuser', [SettingsController::class, 'firstUser']);
+    Route::post('changeIPSetting', [SettingsController::class, 'changeIPSetting']);
+});
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
