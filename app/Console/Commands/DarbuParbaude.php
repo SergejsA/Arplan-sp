@@ -54,7 +54,7 @@ class DarbuParbaude extends Command
         $rows = User::where('tips', '!=', 'system_admin')->where('tips', '!=', 'deactive')->get();
         foreach($rows as $rowLiet){
             $this->info($rowLiet->id);
-            if(true || ($dayNum != 6 && $dayNum != 7)){
+            if($dayNum != 6 && $dayNum != 7){
                 $ilgumi = Data::where('daritaja_id', $rowLiet->id)->where('datums', $nedelasSakums)->get();
                 $arrayIlgumsKopa = array(0,0,0,0,0,0,0);
                 foreach($ilgumi as $rowIlgums){
