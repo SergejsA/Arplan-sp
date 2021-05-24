@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('check:jobs')->cron('40 8 * * *');
+        $schedule->command('check:jobs')->cron('0 5 * * *');
     }
 
     /**
