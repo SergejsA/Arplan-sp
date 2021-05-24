@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -30,7 +31,12 @@ class ResetPasswordMailable extends Mailable
      */
     public function build()
     {
-        return $this->subject("Paroles atjaunošana")->view('reset-password');
+        $firma = Setting::where('name', 'firma')->get();
+        $firmas_nos = '';
+        if(sizeof($firma) > 0){
+            $firmas_nos = $firma[0]->value;
+        }
+        return $this->subject("Paroles atjaunošana")->view('reset-password', ['firma_nos' => $firmas_nos]);
     }
 
 }
