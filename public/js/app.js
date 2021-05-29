@@ -65004,8 +65004,8 @@ var render = function() {
                         sodienacol:
                           j == _vm.currentDay - 1 &&
                           _vm.nedelas_nr == _vm.todayWeek &&
-                          j != 6 &&
-                          j != 7
+                          j != 5 &&
+                          j != 6
                       },
                       staticStyle: { "text-align": "center" }
                     },

@@ -63,7 +63,7 @@
             </tr>
             <tr>
                 <td style="text-align:right;"><b>Kopā:</b></td>
-                <td v-for="(ilgums, j) in ilgumiKopa" :key="'datakopa'+j" :class="{'brivdienacol6':j == 5, 'brivdienacol7':j == 6, 'sodienacol':j==currentDay-1 && nedelas_nr == todayWeek && j != 6 && j != 7}" class="beigas" style="text-align:center;">
+                <td v-for="(ilgums, j) in ilgumiKopa" :key="'datakopa'+j" :class="{'brivdienacol6':j == 5, 'brivdienacol7':j == 6, 'sodienacol':j==currentDay-1 && nedelas_nr == todayWeek && j != 5 && j != 6}" class="beigas" style="text-align:center;">
                     <b>{{ ilgums }}</b>
                 </td>
             </tr>
